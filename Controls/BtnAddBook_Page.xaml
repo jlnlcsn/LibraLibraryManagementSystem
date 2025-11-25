@@ -1,0 +1,193 @@
+﻿<Page x:Class="LibraLibraryManagementSystem.Controls.BtnAddBook_Page"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      d:DesignWidth="800"
+      d:DesignHeight="450"
+      FontFamily="Montserrat"
+      Background="White">
+
+    <Page.Resources>
+
+        <!-- Compact Rounded Button -->
+        <Style x:Key="RoundedButton" TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="6,3"/>
+            <Setter Property="MinWidth" Value="80"/>
+            <Setter Property="MinHeight" Value="30"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="bd"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bd" Property="Opacity" Value="0.95"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="bd" Property="Opacity" Value="0.9"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Compact Rounded TextBox -->
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#D0D6DB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="6,4"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="MinHeight" Value="30"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border x:Name="Bd"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="20">
+                            <ScrollViewer x:Name="PART_ContentHost"
+                                          Margin="0"
+                                          VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+    </Page.Resources>
+
+    <!-- Scaling root (entire content scales up/down) -->
+    <Grid x:Name="ScaleRoot">
+        <Grid.LayoutTransform>
+            <ScaleTransform x:Name="PageScale"/>
+        </Grid.LayoutTransform>
+
+        <!-- Compact layout sized for 800x450 -->
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Title -->
+            <TextBlock Text="ADD A BOOK"
+                       FontWeight="Bold"
+                       FontSize="24"
+                       Margin="0,0,0,12"/>
+
+            <!-- Two-column form -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- LEFT COLUMN -->
+                <StackPanel Grid.Column="0" Margin="0,0,18,0">
+
+                    <StackPanel Margin="0,0,0,10">
+                        <TextBlock FontWeight="SemiBold" FontSize="13">
+                            BookID <Run Text="*" Foreground="Red"/>
+                        </TextBlock>
+                        <TextBox x:Name="txtBookID"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,0,0,10">
+                        <TextBlock FontWeight="SemiBold" FontSize="13">
+                            Author <Run Text="*" Foreground="Red"/>
+                        </TextBlock>
+                        <TextBox x:Name="txtAuthor"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,0,0,10">
+                        <TextBlock FontWeight="SemiBold" FontSize="13">
+                            Title <Run Text="*" Foreground="Red"/>
+                        </TextBlock>
+                        <TextBox x:Name="txtTitle"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,0,0,10">
+                        <TextBlock Text="Edition" FontWeight="SemiBold" FontSize="13"/>
+                        <TextBox x:Name="txtEdition"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,0,0,10">
+                        <TextBlock Text="Volumes" FontWeight="SemiBold" FontSize="13"/>
+                        <TextBox x:Name="txtVolumes"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,0,0,10">
+                        <TextBlock Text="Pages" FontWeight="SemiBold" FontSize="13"/>
+                        <TextBox x:Name="txtPages"/>
+                    </StackPanel>
+
+                </StackPanel>
+
+                <!-- RIGHT COLUMN -->
+                <StackPanel Grid.Column="1">
+
+                    <StackPanel Margin="0,0,0,10">
+                        <TextBlock FontWeight="SemiBold" FontSize="13">
+                            Publisher <Run Text="*" Foreground="Red"/>
+                        </TextBlock>
+                        <TextBox x:Name="txtPublisher"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,0,0,10">
+                        <TextBlock FontWeight="SemiBold" FontSize="13">
+                            Category <Run Text="*" Foreground="Red"/>
+                        </TextBlock>
+                        <TextBox x:Name="txtCategory"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,0,0,10">
+                        <TextBlock Text="Year" FontWeight="SemiBold" FontSize="13"/>
+                        <TextBox x:Name="txtYear"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,0,0,10">
+                        <TextBlock FontWeight="SemiBold" FontSize="13">
+                            Location (shelf) <Run Text="*" Foreground="Red"/>
+                        </TextBlock>
+                        <TextBox x:Name="txtLocation"/>
+                    </StackPanel>
+
+                </StackPanel>
+
+            </Grid>
+
+            <!-- Buttons -->
+            <StackPanel Grid.Row="2"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Margin="0,10,0,0">
+
+                <Button Content="CANCEL"
+                    Background="#555"
+                    Style="{StaticResource RoundedButton}"
+                    Click="CancelButton_Click"/>
+                <Button Content="ADD"
+                    Background="#57B894"
+                    Style="{StaticResource RoundedButton}"
+                    Margin="10,0,0,0"
+                    Click="AddButton_Click"/>
+            </StackPanel>
+
+        </Grid>
+
+    </Grid>
+</Page>

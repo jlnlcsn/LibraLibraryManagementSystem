@@ -1,0 +1,356 @@
+﻿<Page x:Class="LibraLibraryManagementSystem.UserPages.UserBooks"
+          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+          xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+          xmlns:models="clr-namespace:LibraLibraryManagementSystem.Models"
+          mc:Ignorable="d"
+          d:DesignHeight="450"
+          d:DesignWidth="800"
+          Title="UserBooks"
+          FontFamily="Montserrat"
+          Background="White">
+
+    <Page.Resources>
+
+        <!-- STATUS COLOR TEMPLATE -->
+        <Style x:Key="StatusCellStyle" TargetType="DataGridCell">
+            <Setter Property="Padding" Value="4"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+            <Setter Property="TextBlock.VerticalAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridCell">
+                        <Border Background="{TemplateBinding Background}" 
+                BorderThickness="0" 
+                CornerRadius="3"
+                SnapsToDevicePixels="True">
+                            <ContentPresenter VerticalAlignment="Center" 
+                              HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Status}" Value="AVAILABLE">
+                    <Setter Property="Background" Value="#A5D6A7"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Status}" Value="BORROWED">
+                    <Setter Property="Background" Value="#EF9A9A"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Status}" Value="PENDING SHELVING">
+                    <Setter Property="Background" Value="#FFCC80"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+
+        <!-- WRAP CELL STYLE -->
+        <Style x:Key="WrapCellStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="4,2"/>
+        </Style>
+
+        <!-- DATAGRID GLOBAL STYLE -->
+        <Style TargetType="DataGrid">
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="BorderThickness" Value="0"/>
+
+            <Setter Property="ColumnHeaderStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="FontSize" Value="14"/>
+                        <Setter Property="BorderBrush" Value="#333"/>
+                        <Setter Property="BorderThickness" Value="0 0 0 1"/>
+                        <Setter Property="Padding" Value="6"/>
+                        <Setter Property="Foreground" Value="#333"/>
+                        <Setter Property="Background" Value="White"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+
+            <Setter Property="RowStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Background" Value="White"/>
+                        <Setter Property="Margin" Value="0,2"/>
+
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#EEEEEE"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#D5D5D5"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+
+            <Setter Property="CellStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="Padding" Value="6"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- SEARCH BOX -->
+        <Style x:Key="RoundedSearchBox" TargetType="TextBox">
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="DarkCyan"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="MinHeight" Value="30"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border CornerRadius="8"
+                                    Background="{TemplateBinding Background}">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- BUTTON STYLE -->
+        <Style x:Key="RoundedButton" TargetType="Button">
+            <Setter Property="Height" Value="34"/>
+            <Setter Property="MinWidth" Value="70"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                    CornerRadius="8"
+                                    Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Opacity" Value="0.9"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Opacity" Value="0.8"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- CHECKBOX STYLE -->
+        <Style TargetType="CheckBox">
+            <Setter Property="Margin" Value="6,4,0,4"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="Box"
+                                        Width="16" Height="16"
+                                        CornerRadius="3"
+                                        BorderBrush="#888"
+                                        BorderThickness="1">
+                                <Viewbox x:Name="CheckBoxMark" Visibility="Collapsed">
+                                    <Path x:Name="CheckMark"
+                                              Data="M2,8 L6,12 L14,4"
+                                              Stroke="White"
+                                              StrokeThickness="2"/>
+                                </Viewbox>
+                            </Border>
+
+                            <ContentPresenter Margin="8,0,0,0"/>
+                        </StackPanel>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Box" Property="Background" Value="#FFD54F"/>
+                                <Setter TargetName="Box" Property="BorderBrush" Value="#FFB300"/>
+                                <Setter TargetName="CheckBoxMark" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Box" Property="BorderBrush" Value="#666"/>
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Box" Property="Opacity" Value="0.5"/>
+                                <Setter Property="Foreground" Value="#888"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Page.Resources>
+
+
+    <!-- ===================== PAGE LAYOUT ===================== -->
+    <Grid Margin="6">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="4"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- LEFT SIDEBAR -->
+        <StackPanel Grid.Column="0">
+
+            <TextBlock Text="Filter by" FontWeight="Bold" FontSize="14"/>
+
+            <TextBlock Text="Year" FontSize="12" FontWeight="SemiBold"/>
+            <Slider x:Name="UserYearSlider"
+                        Minimum="0" Maximum="10"
+                        TickFrequency="1"
+                        IsSnapToTickEnabled="True"
+                        Value="0"
+                        ValueChanged="OnYearSliderChanged"/>
+
+            <TextBlock x:Name="UserYearValue"
+                           Text=""
+                           FontSize="12"
+                           HorizontalAlignment="Right"/>
+
+            <TextBlock Text="Category" FontWeight="Bold" FontSize="14" Margin="0,6,0,4"/>
+            <StackPanel x:Name="UserCategoryPanel">
+                <CheckBox Content="Fiction" Checked="OnFilterCheckedChanged" Unchecked="OnFilterCheckedChanged"/>
+                <CheckBox Content="Non-Fiction" Checked="OnFilterCheckedChanged" Unchecked="OnFilterCheckedChanged"/>
+                <CheckBox Content="Reference Materials" Checked="OnFilterCheckedChanged" Unchecked="OnFilterCheckedChanged"/>
+                <CheckBox Content="English &amp; Literature" Checked="OnFilterCheckedChanged" Unchecked="OnFilterCheckedChanged"/>
+                <CheckBox Content="Mathematics" Checked="OnFilterCheckedChanged" Unchecked="OnFilterCheckedChanged"/>
+                <CheckBox Content="Science" Checked="OnFilterCheckedChanged" Unchecked="OnFilterCheckedChanged"/>
+                <CheckBox Content="Social Science" Checked="OnFilterCheckedChanged" Unchecked="OnFilterCheckedChanged"/>
+                <CheckBox Content="Filipino &amp; Philippine Studies" Checked="OnFilterCheckedChanged" Unchecked="OnFilterCheckedChanged"/>
+                <CheckBox Content="Arts &amp; Music" Checked="OnFilterCheckedChanged" Unchecked="OnFilterCheckedChanged"/>
+            </StackPanel>
+
+            <TextBlock Text="Status" FontWeight="Bold" FontSize="14" Margin="0,8,0,4"/>
+            <StackPanel x:Name="UserStatusPanel">
+                <CheckBox Content="Available" Checked="OnFilterCheckedChanged" Unchecked="OnFilterCheckedChanged"/>
+                <CheckBox Content="Borrowed" Checked="OnFilterCheckedChanged" Unchecked="OnFilterCheckedChanged"/>
+                <CheckBox Content="Pending Shelving" Checked="OnFilterCheckedChanged" Unchecked="OnFilterCheckedChanged"/>
+            </StackPanel>
+        </StackPanel>
+
+        <Border Grid.Column="1" Background="Black" Width="1" Margin="0,6"/>
+
+        <!-- MAIN CONTENT -->
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- SEARCH -->
+            <Grid Grid.Row="0" Margin="6">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <!-- 75% -->
+                    <ColumnDefinition Width="1*"/>
+                    <!-- 25% -->
+                </Grid.ColumnDefinitions>
+
+                <!-- LEFT SIDE: SEARCH BOX + ICON -->
+                <Border Grid.Column="0"
+                    Background="DarkCyan"
+                    CornerRadius="8"
+                    Padding="6"
+                    HorizontalAlignment="Stretch">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox x:Name="UserSearchBox"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Foreground="White"
+                            FontSize="14"
+                            VerticalContentAlignment="Center"
+                            TextChanged="OnFilterTextChanged"
+                            Padding="0"/>
+
+                        <Image Grid.Column="1"
+                            Source="/Resources/search_icon.png"
+                            Width="18" Height="18"
+                            Margin="6 0 0 0"
+                            VerticalAlignment="Center"/>
+                    </Grid>
+                </Border>
+            </Grid>
+
+
+            <!-- DATAGRID -->
+            <DataGrid x:Name="UserBooksDataGrid"
+                          Grid.Row="1"
+                          Margin="6"
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False"
+                          IsReadOnly="True"
+                          SelectionMode="Single">
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Book ID" Binding="{Binding ID}" Width="*" ElementStyle="{StaticResource WrapCellStyle}"/>
+                    <DataGridTextColumn Header="Author" Binding="{Binding Author}" Width="*" ElementStyle="{StaticResource WrapCellStyle}"/>
+                    <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="*" ElementStyle="{StaticResource WrapCellStyle}"/>
+                    <DataGridTextColumn Header="Publisher" Binding="{Binding Publisher}" Width="*" ElementStyle="{StaticResource WrapCellStyle}"/>
+                    <DataGridTextColumn Header="Year" Binding="{Binding Year}" Width="*" ElementStyle="{StaticResource WrapCellStyle}"/>
+                    <DataGridTextColumn Header="Edition" Binding="{Binding Edition}" Width="*" ElementStyle="{StaticResource WrapCellStyle}"/>
+                    <DataGridTextColumn Header="Volume" Binding="{Binding Volumes}" Width="*" ElementStyle="{StaticResource WrapCellStyle}"/>
+                    <DataGridTextColumn Header="Pages" Binding="{Binding Pages}" Width="*" ElementStyle="{StaticResource WrapCellStyle}"/>
+                    <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="*" ElementStyle="{StaticResource WrapCellStyle}"/>
+                    <DataGridTextColumn Header="Shelf" Binding="{Binding ShelfLocation}" Width="*" ElementStyle="{StaticResource WrapCellStyle}"/>
+                    <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*" ElementStyle="{StaticResource WrapCellStyle}" CellStyle="{StaticResource StatusCellStyle}" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <!-- BOTTOM BUTTONS -->
+            <Grid Grid.Row="2" Margin="6">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <!-- Column 0: empty / spacer -->
+                    <ColumnDefinition Width="1*" />
+                    <!-- DELETE button -->
+                    <ColumnDefinition Width="1*" />
+                    <!-- EDIT button -->
+                    <ColumnDefinition Width="1*" />
+                    <!-- ADD button -->
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="3"
+                    Content="RESERVE"
+                    Style="{StaticResource RoundedButton}"
+                    Background="#808080"
+                    Foreground="White"
+                    Click="AddReserve_Click"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

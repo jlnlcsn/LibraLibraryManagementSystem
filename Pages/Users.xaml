@@ -1,0 +1,291 @@
+﻿<Page x:Class="LibraLibraryManagementSystem.Pages.Users" 
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:LibraLibraryManagementSystem.Pages" 
+      mc:Ignorable="d" 
+      d:DesignHeight="450" 
+      d:DesignWidth="800" 
+      Title="Users" 
+      Background="White">
+
+    <!-- ============================ -->
+    <!--       PAGE RESOURCES         -->
+    <!-- ============================ -->
+    <Page.Resources>
+
+        <Style x:Key="WrapCellStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="4,2"/>
+        </Style>
+
+        <!-- DATAGRID GLOBAL STYLE -->
+        <Style TargetType="DataGrid">
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="BorderThickness" Value="0"/>
+
+            <Setter Property="ColumnHeaderStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="FontSize" Value="14"/>
+                        <Setter Property="BorderBrush" Value="#333"/>
+                        <Setter Property="BorderThickness" Value="0 0 0 1"/>
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="Padding" Value="6"/>
+                        <Setter Property="Foreground" Value="#333"/>
+                        <Setter Property="Background" Value="White"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+
+            <Setter Property="RowStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Background" Value="White"/>
+                        <Setter Property="Margin" Value="0,2"/>
+
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#EEEEEE"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#D5D5D5"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+
+            <Setter Property="CellStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="Padding" Value="6"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- SEARCH BOX -->
+        <Style x:Key="RoundedSearchBox" TargetType="TextBox">
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="DarkCyan"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="MinHeight" Value="30"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border CornerRadius="8"
+                        Background="{TemplateBinding Background}">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- BUTTON STYLE -->
+        <Style x:Key="RoundedButton" TargetType="Button">
+            <Setter Property="Height" Value="34"/>
+            <Setter Property="MinWidth" Value="70"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                        CornerRadius="8"
+                        Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Opacity" Value="0.9"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Opacity" Value="0.8"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Page.Resources>
+
+    <!-- ============================ -->
+    <!--        MAIN CONTENT          -->
+    <!-- ============================ -->
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="54*"/>
+            <RowDefinition Height="59*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="44*"/>
+            <RowDefinition Height="68*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- 0 — SEARCH BAR -->
+        <Grid Grid.Row="0" Margin="6,6,6,6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <!-- 75% -->
+                <ColumnDefinition Width="1*"/>
+                <!-- 25% -->
+            </Grid.ColumnDefinitions>
+
+            <!-- LEFT SIDE: SEARCH BOX + ICON -->
+            <Border Grid.Column="0"
+                    Background="DarkCyan"
+                    CornerRadius="8"
+                    Padding="6"
+                    HorizontalAlignment="Stretch">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox x:Name="SearchBox"
+                             Background="Transparent"
+                             BorderThickness="0"
+                             Foreground="White"
+                             FontSize="14"
+                             VerticalContentAlignment="Center"
+                             TextChanged="OnFilterTextChanged"
+                             Padding="0"/>
+
+                    <TextBlock x:Name="SearchPlaceholder"
+                               Text="Search for a User..."
+                               FontSize="13"
+                               Foreground="#B0E0E6"
+                               VerticalAlignment="Center"
+                               IsHitTestVisible="False"
+                               Panel.ZIndex="-1"/>
+
+                    <Image Grid.Column="1"
+                           Source="/Resources/search_icon.png"
+                           Width="18" Height="18"
+                           Margin="6 0 0 0"
+                           VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+        </Grid>
+
+
+        <!-- 1 — ADMIN HEADER -->
+        <TextBlock Grid.Row="1"
+                   Text="ADMIN"
+                   FontSize="22"
+                   FontWeight="Bold"
+                   Margin="0,10,0,5"/>
+
+        <!-- 2 — ADMIN DATA GRID -->
+        <DataGrid x:Name="AdminDataGrid" Grid.Row="2"
+                  ItemsSource="{Binding AdminUsers}"
+                  SelectedItem="{Binding SelectedAdminUser}"
+                  Margin="0,0,0,34" Grid.RowSpan="3"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  IsReadOnly="True"
+                  SelectionMode="Single">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="School ID" Binding="{Binding SchoolID}" Width="*" ElementStyle="{StaticResource WrapCellStyle}"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" ElementStyle="{StaticResource WrapCellStyle}"/>
+                <DataGridTextColumn Header="Username" Binding="{Binding Email}" Width="*" ElementStyle="{StaticResource WrapCellStyle}"/>
+                <DataGridTextColumn Header="Contact No." Binding="{Binding ContactNo}" Width="*" ElementStyle="{StaticResource WrapCellStyle}"/>
+                <DataGridTextColumn Header="Password" Binding="{Binding Password}" Width="*" ElementStyle="{StaticResource WrapCellStyle}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- ======================== -->
+        <!-- 3 — STUDENTS HEADER -->
+        <!-- ======================== -->
+        <TextBlock Grid.Row="4"
+                   Text="STUDENTS"
+                   FontSize="22"
+                   FontWeight="Bold"
+                   Margin="0,10,0,5"/>
+
+        <!-- ======================== -->
+        <!-- 4 — STUDENTS DATA GRID -->
+        <!-- ======================== -->
+        <DataGrid x:Name="StudentDataGrid" Grid.Row="4" 
+                  ItemsSource="{Binding StudentUsers}"
+                  SelectedItem="{Binding SelectedStudent}"
+                  Margin="0,34,0,0" Grid.RowSpan="3"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  IsReadOnly="True"
+                  SelectionMode="Single">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="School ID" Binding="{Binding SchoolID}" Width="*" ElementStyle="{StaticResource WrapCellStyle}"/>
+                <DataGridTextColumn Header="Grade and Section" Binding="{Binding GradeSection}" Width="*" ElementStyle="{StaticResource WrapCellStyle}"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" ElementStyle="{StaticResource WrapCellStyle}"/>
+                <DataGridTextColumn Header="Username" Binding="{Binding Email}" Width="*" ElementStyle="{StaticResource WrapCellStyle}"/>
+                <DataGridTextColumn Header="Contact No." Binding="{Binding ContactNo}" Width="*" ElementStyle="{StaticResource WrapCellStyle}"/>
+                <DataGridTextColumn Header="Password" Binding="{Binding Password}" Width="*" ElementStyle="{StaticResource WrapCellStyle}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- ======================== -->
+        <!-- 6 — BUTTONS IN GRID (4 COLUMNS) -->
+        <!-- ======================== -->
+        <Grid Grid.Row="7" Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- ADD USER — positive action first -->
+            <Button Grid.Column="3"
+                Style="{StaticResource RoundedButton}"
+                Background="#4CAF50"
+                Foreground="White"
+                Content="ADD"
+                Click="AddUser_Click"
+                Margin="5"/>
+
+            <!-- EDIT -->
+            <Button Grid.Column="2"
+                Style="{StaticResource RoundedButton}"
+                Background="#F4A632"
+                Foreground="White"
+                Content="EDIT"
+                Click="EditUser_Click"
+                Margin="5"/>
+
+            <!-- DELETE — last since negative action -->
+            <Button Grid.Column="1"
+                Style="{StaticResource RoundedButton}"
+                Background="#E04C3A"
+                Foreground="White"
+                Content="DELETE"
+                Click="DeleteUser_Click"
+                Margin="5"/>
+
+        </Grid>
+
+    </Grid>
+</Page>

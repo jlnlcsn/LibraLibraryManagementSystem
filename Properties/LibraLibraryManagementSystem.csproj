@@ -1,0 +1,5 @@
+<PropertyGroup>
+  <AssemblyName>LibraLibraryManagementSystem</AssemblyName>
+  <RootNamespace>LibraLibraryManagementSystem</RootNamespace>
+  <!-- Keep TargetFrameworkVersion / other settings intact -->
+</PropertyGroup>
